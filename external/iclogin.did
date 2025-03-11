@@ -1,0 +1,91 @@
+type TransformArgs = 
+ record {
+   context: blob;
+   response: HttpResponsePayload;
+ };
+type Time = int;
+type Result_2 = 
+ variant {
+   err: text;
+   ok;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: record {auth: AuthResponse;};
+ };
+type Result = 
+ variant {
+   err: text;
+   ok: record {keys: vec PubKey;};
+ };
+type PubKey = 
+ record {
+   alg: text;
+   e: nat;
+   kid: text;
+   kty: text;
+   n: nat;
+   use: text;
+ };
+type PrepRes = 
+ variant {
+   err: text;
+   ok: record {
+         expireAt: Time;
+         pubKey: vec nat8;
+       };
+ };
+type Main = 
+ service {
+   addMod: (principal) -> (Result_2);
+   checkEmail: (principal, text) -> (bool) query;
+   fetchGoogleKeys: () -> (Result);
+   getBalance: () -> (record {
+                        "text": text;
+                        val: nat;
+                      }) query;
+   getDelegation: (text, text, vec nat8, Time) -> (Result_1) query;
+   /// Get an email address for a principal
+   getEmail: (principal, text) -> (opt text) query;
+   getPrincipal: () -> (text) query;
+   getStats: () -> (vec text) query;
+   prepareDelegation: (text, text, vec nat8, nat) -> (PrepRes);
+   setGoogleKeys: (text) -> (Result);
+   transform: (TransformArgs) -> (CanisterHttpResponsePayload) query;
+ };
+type HttpResponsePayload = 
+ record {
+   body: vec nat8;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type HttpHeader = 
+ record {
+   name: text;
+   value: text;
+ };
+type Delegation = 
+ record {
+   delegation:
+    record {
+      expiration: int;
+      pubkey: vec nat8;
+      targets: opt vec principal;
+    };
+   signature: vec nat8;
+ };
+type CanisterHttpResponsePayload = 
+ record {
+   body: vec nat8;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type AuthResponse = 
+ record {
+   authnMethod: text;
+   delegations: vec Delegation;
+   kind: text;
+   userPublicKey: vec nat8;
+ };
+service : () -> Main

@@ -1,0 +1,73 @@
+{
+  "canisters": {
+    "bit_gifts_backend": {
+      "main": "src/bit_gifts_backend/main.mo",
+      "type": "motoko"
+    },
+    "bit_gifts_frontend": {
+      "dependencies": ["bit_gifts_backend"],
+      "source": ["src/bit_gifts_frontend/dist"],
+      "type": "assets",
+      "workspace": "bit_gifts_frontend"
+    },
+    "ckbtc_ledger": {
+      "type": "custom",
+      "candid": "./external/icrc1_ledger.did",
+      "wasm": "./external/icrc1_ledger.wasm.gz",
+      "remote": {
+        "id": {
+          "ic": "mxzaz-hqaaa-aaaar-qaada-cai"
+        }
+      }
+    },
+    "ckbtc_index": {
+      "type": "custom",
+      "candid": "./external/icrc1_index.did",
+      "wasm": "./external/icrc1_index.wasm.gz",
+      "remote": {
+        "id": {
+          "ic": "n5wcd-faaaa-aaaar-qaaea-cai"
+        }
+      }
+    },
+    "ckbtc_minter": {
+      "type": "custom",
+      "candid": "./external/ckbtc_minter.did",
+      "wasm": "./external/ckbtc_minter.wasm.gz",
+      "remote": {
+        "id": {
+          "ic": "mqygn-kiaaa-aaaar-qaadq-cai"
+        }
+      }
+    },
+    "iclogin": {
+      "type": "custom",
+      "candid": "./external/iclogin.did",
+      "wasm": "./external/iclogin.wasm.gz",
+      "remote": {
+        "id": {
+          "ic": "fhzgg-waaaa-aaaah-aqzvq-cai"
+        }
+      }
+    },
+    "internet_identity": {
+      "type": "custom",
+      "candid": "./external/internet_identity.did",
+      "wasm": "./external/internet_identity.wasm.gz",
+      "remote": {
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
+      },
+      "bit_gifts_frontend": {}
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": "mops sources"
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
